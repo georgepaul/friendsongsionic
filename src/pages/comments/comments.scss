@@ -1,0 +1,148 @@
+page-comments {
+
+  .commentsList{
+
+    ion-item{
+      align-items: flex-start;
+
+      .item-inner{
+        overflow: visible;
+
+        .input-wrapper{
+          overflow: visible;
+
+          ion-label{
+            white-space:normal;
+            background: #e3e3e3;
+            padding: 10px;
+            overflow: visible;
+            position: relative;
+
+            h2{
+              font-size: 14px;
+              color: rgb(60, 60, 65);
+              overflow-wrap: break-word;
+              word-wrap: break-word;
+              -ms-word-break: break-all;
+              /* This is the dangerous one in WebKit, as it breaks things wherever */
+              word-break: break-all;
+              /* Adds a hyphen where the word breaks, if supported (No Blink) */
+              -ms-hyphens: auto;
+              -moz-hyphens: auto;
+            }
+
+            p{
+              font-size: 14px;
+              color: #000;
+            }
+          }
+
+          ion-label:before{
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            position: absolute;
+            top: 0;
+          }
+        }
+      }
+
+      &.thatSideComment{
+
+        ion-label{
+          border-radius:0 7px 7px 7px;
+        }
+        ion-label:before{
+          border-width: 15px 0px 0px 15px;
+          border-color: #e3e3e3 transparent transparent transparent;
+          right: 100%;
+        }
+      }
+
+      &.thisSideComment{
+
+        ion-label{
+          border-radius:7px 0 7px 7px;
+        }
+        ion-label:before{
+          border-width: 15px 15px 0 0;
+          border-color: #e3e3e3 transparent transparent transparent;
+          left: 100%;
+        }
+      }
+
+      /*.comment{
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+
+        -ms-word-break: break-all;
+        !* This is the dangerous one in WebKit, as it breaks things wherever *!
+        word-break: break-all;
+        !* Adds a hyphen where the word breaks, if supported (No Blink) *!
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+      }*/
+
+
+    }
+
+
+  }
+
+  .commentHereMain{
+    margin: 0;
+    /*border-top:1px solid #ccc;*/
+  }
+
+  ion-icon[name="close"]{
+    font-size: 2.0em;
+  }
+  .auto-suggestion{
+    max-height: 100px;
+    overflow-y: scroll;
+    margin: -1px 0 0 10px;
+    width: calc(100% - 50px);
+    box-shadow: 0px -2px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 4px 4px 0 0;
+    textarea {
+      resize: both;
+    }
+    ion-item{
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
+      background: #eee;
+    }
+    .findPeople{
+
+    }
+    .item-block{
+      min-height: 25px !important;
+    }
+    .item-ios ion-avatar {
+      min-width: 25px;
+      min-height: 25px;
+    }
+    .item-ios ion-avatar img{
+      min-width: 25px !important;
+      min-height: 25px !important;;
+    }
+    .label-md{
+      margin: 0;
+    }
+    img{
+      height: 30px;
+      width: 30px;
+      margin: 5px auto;
+    }
+    .label-ios {
+      margin: 6px 8px 6px 0;
+    }
+    .search-name{
+      margin: 0 !important;
+    }
+  /*  .input-wrapper{
+      flex: 0.2;
+      -webkit-flex: 0.2;
+    }*/
+  }
+}

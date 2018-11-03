@@ -1,0 +1,93 @@
+<ion-header>
+    <ion-toolbar color="light" class="toolbarWithSearchbar">
+        <ion-searchbar [(ngModel)]="searchValues" [showCancelButton]="shouldShowCancel"
+                       (ionInput)="onInput(searchValues)" (ionCancel)="onCancel($event)">
+        </ion-searchbar>
+    </ion-toolbar>
+    <ion-toolbar color="light" class="toolbarWithSegment">
+        <ion-segment [(ngModel)]="searchOptions">
+            <ion-segment-button value="youtube" class="youtube" (click)="onProfile()">
+                <img src="assets/img/YouTube-White.png">
+            </ion-segment-button>
+            <ion-segment-button value="spotify" class="spotify" (click)="onProfile()">
+                <img src="assets/img/spotify.png">
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div [ngSwitch]="searchOptions">
+        <div *ngSwitchCase="'youtube'">
+            <div *ngIf="videoData || videoData != null">
+                <div *ngFor="let video of videoData;let i=index">
+                    <ion-card id="youtube_card{{i}}" no-padding="">
+                        <ion-card-content>
+                            <p>{{video.description}}</p>
+                        </ion-card-content>
+                        <div class="videoWrapper" [ngClass]="video.isLoading == true ? 'flowspinner' : ''"
+                             (click)="createNewIframe(i)">
+                            <div id="search_iframe{{i}}"></div>
+                            <img src="{{video.thumb}}" id="youtube_thumb{{i}}">
+                        </div>
+                        <ion-card-content>
+                            <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{video.title}}</div>
+                        </ion-card-content>
+                        <div class="searchShareBtnWrapper">
+                            <button ion-button icon-left color="themeGrey" small (click)="shareVideo(video)">
+                                <ion-icon class="iconMi-share-group"></ion-icon>
+                                Share
+                            </button>
+                        </div>
+                    </ion-card>
+                </div>
+            </div>
+        </div>
+
+        <div *ngSwitchCase="'spotify'">
+            <div *ngIf="spotifyData || spotifyData != null">
+                <div *ngFor="let spotify of spotifyData;let i=index">
+                    <ion-card id="spotify_card{{i}}" no-padding="">
+                        <ion-card-content>
+                            <p>{{spotify.description}}</p>
+                        </ion-card-content>
+                        <div class="audioWrapper" *ngIf="spotify.spotify_preview != ''">
+                            <img src="{{spotify.thumb}}" style="height: 309px" id="spotify_thumb{{i}}">
+                            <div id="audioplayer">
+                                <button type="button" id="spotify_playbutton{{i}}" class="play"
+                                        (click)="clickMusic(spotify,i)"></button>
+                                <button type="button" id="spotify_pausebutton{{i}}" class="pause"
+                                        (click)="pauseMusic()"></button>
+                            </div>
+                        </div>
+                        <div class="spotifyWrapper" *ngIf="spotify.spotify_preview == ''"
+                             (click)="createNewSpotifyIframe(i,spotify)">
+                            <img src="{{spotify.thumb}}" style="height: 309px" id="spotify_thumb{{i}}">
+                            <div id="spotify_iframe{{i}}"></div>
+                        </div>
+
+                        <ion-card-content>
+                            <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{spotify.title}}</div>
+                        </ion-card-content>
+                        <div class="searchShareBtnWrapper">
+                            <button ion-button icon-left color="themeGrey" small (click)="shareVideo(spotify)">
+                                <ion-icon class="iconMi-share-group"></ion-icon>
+                                Share
+                            </button>
+                        </div>
+                    </ion-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ion-fab bottom right edge (click)="backToTop()">
+        <button ion-fab id="fab-back-to-top-search">
+            <ion-icon name="ios-arrow-up"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

@@ -1,0 +1,91 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../assets/iconfonts/icomoon.eot?5tiksq');
+  src:  url('../assets/iconfonts/icomoon.eot?5tiksq#iefix') format('embedded-opentype'),
+  url('../assets/iconfonts/icomoon.ttf?5tiksq') format('truetype'),
+  url('../assets/iconfonts/icomoon.woff?5tiksq') format('woff'),
+  url('../assets/iconfonts/icomoon.svg?5tiksq#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'icomoon-new';
+  src:  url('../assets/iconfonts/icomoon-new.eot?5tiksq');
+  src:  url('../assets/iconfonts/icomoon-new.eot?5tiksq#iefix') format('embedded-opentype'),
+  url('../assets/iconfonts/icomoon-new.ttf?5tiksq') format('truetype'),
+  url('../assets/iconfonts/icomoon-new.woff?5tiksq') format('woff'),
+  url('../assets/iconfonts/icomoon-new.svg?5tiksq#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="iconMi-"], [class*=" iconMi-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="iconMI-"], [class*=" iconMI-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon-new' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconMi-comment:before {
+  content: "\e900";
+}
+.iconMi-heart-filled:before {
+  content: "\e901";
+}
+.iconMi-heart-outline:before {
+  content: "\e902";
+}
+.iconMi-messageplus:before {
+  content: "\e903";
+}
+.iconMi-share:before {
+  content: "\e904";
+}
+.iconMi-share-group:before {
+  content: "\e905";
+}
+.iconMi-add-user:before {
+  content: "\e906";
+}
+.iconMI-comment-filled:before {
+  content: "\e907";
+}
+.iconMI-heartbeat:before {
+  content: "\e908";
+  font-size: 3.7vw;
+}
+
+@font-face {
+  font-family: 'choco_cookyregular';
+  src: url('../assets/fonts/chococooky-webfont.eot');
+  src: url('../assets/fonts/chococooky-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../assets/fonts/chococooky-webfont.woff2') format('woff2'),
+  url('../assets/fonts/chococooky-webfont.woff') format('woff'),
+  url('../assets/fonts/chococooky-webfont.ttf') format('truetype'),
+  url('../assets/fonts/chococooky-webfont.svg#choco_cookyregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

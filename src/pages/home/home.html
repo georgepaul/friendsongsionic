@@ -1,0 +1,409 @@
+<ion-header>
+    <ion-toolbar color="light" class="toolbarWithSearchbar">
+        <ion-title *ngIf="searchValue == false || posts == 'Everyone'" (click)="searchplaylistopup()" class="title-logo"><img class="header-logo"
+                                                                            src="{{playImage}}" onError="this.src='assets/img/default-img.png';"> {{playlist == 'Select a playlist' ? 'FriendSongs' : playlist }}
+            <span>{{playlist == 'Select a playlist' ? playlist :''}}</span>
+            <span>{{playlist == 'Select a playlist' ? '' : playDescription}}</span>
+        </ion-title>
+
+
+        <ion-buttons start *ngIf="playlist != 'Select a playlist'">
+            <button ion-button icon-only color="themeBlue" style="font-size: 1.4rem;" (click)="followThisGroup == true ? unFollowGroup(groupId) : followGroup(groupId)">
+                <ion-icon name="{{followThisGroup == true ?  'md-notifications-outline' : 'ios-notifications-outline'}}"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-buttons start *ngIf="posts != 'Everyone'" (click)="searchEvent()">
+            <button ion-button icon-only color="themeBlue" style="font-size: 1.4rem;">
+                <ion-icon name="search"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-searchbar [(ngModel)]="searchText" *ngIf="searchValue != false && posts != 'Everyone'"
+                       [showCancelButton]="shouldShowCancel" (ionInput)="onInput(searchText)"
+                       (ionCancel)="onCancel($event)"></ion-searchbar>
+        <ion-buttons end>
+            <button ion-button icon-only color="themeGrey" (click)="goToProfile(user_data.id)">
+        <span class="userPicHeader">
+          <img src="{{user_data.avatar}}" onError="this.src='assets/img/default-img.png';">
+        </span>
+            </button>
+            <button ion-button icon-only color="themeBlue" class="headerMessagePlushButton" *ngIf="user_data.login_type == 'social'" (click)="invitePeople()">
+                <ion-icon class="iconMi-add-user"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar color="light" class="toolbarWithSegment">
+        <ion-segment [(ngModel)]="posts">
+            <ion-segment-button value="Everyone" (click)="onChangeSegment()">
+                Everyone
+            </ion-segment-button>
+            <ion-segment-button value="Friends" (click)="onChangeSegment()">
+                Following
+            </ion-segment-button>
+            <ion-segment-button value="Me" (click)="onChangeSegment()">
+                Me
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+    <button class="scondary-btn" ion-button color="secondary" block *ngIf="suffleExit == false" (click)="sufflePlayRendom()">
+        <ion-icon  name="md-shuffle" class="paddingicon"></ion-icon>
+        Shuffle Play
+    </button>
+
+    <button class="scondary-btn" ion-button color="secondary" block *ngIf="suffleExit == true" (click)="skiptoNext(lastPlaybackId)">
+        Skip To Next >>
+    </button>
+
+</ion-header>
+
+<ion-content>
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div [ngSwitch]="posts">
+        <div *ngSwitchCase="'Everyone'">
+            <div *ngIf="everyone_data == null"></div>
+            <div *ngIf="everyone_data != ''">
+                <div *ngFor="let everyone of everyone_data;let i=index">
+                    <ion-card id="everyone_card{{i}}" no-padding="">
+                        <ion-item>
+                            <ion-avatar item-left (click)="goToProfile(everyone.user)">
+                                <img src="{{everyone.avatar != '' ?  everyone.avatar: 'assets/img/default-img.png'}}" onError="this.src='assets/img/default-img.png';">
+                            </ion-avatar>
+                            <h2 (click)="goToProfile(everyone.user)">{{everyone.name}}</h2>
+                            <p><ion-icon class="iconMI-heartbeat"></ion-icon> {{everyone.genius_points}}</p>
+                            <p>{{everyone.postTime}}</p>
+                            <button ion-button icon-only item-right clear color="themeGrey" class="postMore"
+                                    (click)="presentActionSheet(everyone, 'everyone', i)">
+                                <ion-icon name="more"></ion-icon>
+                            </button>
+                        </ion-item>
+
+
+                        <ion-card-content>
+                            <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{everyone.extra}}</div>
+                        </ion-card-content>
+
+                        <div class="videoWrapper" *ngIf="everyone.video_type == '1'"
+                             [ngClass]="everyone.isLoading == true ? 'flowspinner' : ''"
+                             (click)="createNewIframe(i,everyone.activity_id)">
+                            <div id="iframe{{i}}"></div>
+                            <img src="{{everyone.thumb}}" id="everyone_thumb{{i}}">
+                        </div>
+                        <div *ngIf="everyone.video_type == '2'">
+                            <div class="audioWrapper" *ngIf="everyone.spotify_preview != ''">
+                                <img src="{{everyone.thumb}}" style="height: 309px" id="everyone_spotify_thumb{{i}}">
+                                <div id="audioplayer">
+                                    <button type="button" id="everyone_playbutton{{i}}" class="play"
+                                            (click)="clickMusic(everyone,i)"></button>
+                                    <button type="button" id="everyone_pausebutton{{i}}" class="pause"
+                                            (click)="pauseMusic()"></button>
+                                </div>
+                            </div>
+                            <div class="spotifyWrapper" *ngIf="everyone.spotify_preview == ''"
+                                 (click)="createNewSpotifyIframe(i,everyone)">
+                                <img src="{{everyone.thumb}}" style="height: 309px" id="everyone_spotify_thumb{{i}}">
+                                <div id="everyone_spotify_iframe{{i}}"></div>
+                            </div>
+                        </div>
+
+                        <ion-card-content>
+                            <div class="text-ellipsis" style="-webkit-box-orient: vertical;"
+                                 style="-webkit-box-orient: vertical;">{{everyone.title}}
+                            </div>
+                        </ion-card-content>
+
+                        <ion-row class="postOptions">
+
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label color="themeGrey">
+                                        <ion-icon [class.iconMi-heart-outline]="everyone.user_liked == false"
+                                                  [class.iconMi-heart-filled]="everyone.user_liked == true"></ion-icon>
+                                    </ion-label>
+                                    <ion-checkbox (click)="likeVideo(everyone,user_data.id)"></ion-checkbox>
+                                </ion-item>
+
+                                <button ion-button icon-only clear color="themeGrey" small
+                                        (click)="openCommentList(everyone)">
+                                    <ion-icon class="iconMi-comment"></ion-icon>
+                                </button>
+                            </ion-col>
+                            <ion-col class="text-right" padding-right>
+                                <button ion-button icon-left color="themeGrey" small (click)="shareVideo(everyone)">
+                                    <ion-icon class="iconMi-share-group"></ion-icon>
+                                    Share
+                                </button>
+                            </ion-col>
+
+                            <!--<ion-col class="text-right" padding-right>
+                                <button ion-button icon-left color="themeGrey" small (click)="shareViaFacebook(everyone.title,everyone.thumb,everyone.source)">
+                                    <ion-icon class="logo-facebook"></ion-icon>
+                                </button>
+                            </ion-col>-->
+
+                        </ion-row>
+
+                        <ion-col>
+                            <ion-item class="likesCounter">
+                                <ion-icon name="heart"></ion-icon>
+                                <span *ngIf="everyone.likes <= 0">Be the first to like this song</span> <span
+                                    *ngIf="everyone.likes > 0">{{everyone.likes}} like</span><span
+                                    *ngIf="everyone.likes > 1">s</span>
+                            </ion-item>
+
+                            <ion-item class="commentsCounter" (click)="openCommentList(everyone)">
+                                <ion-icon class="iconMI-comment-filled"></ion-icon>
+                                <span *ngIf="everyone.comment_count <= 0"> Be the first to comment</span> <span
+                                    *ngIf="everyone.comment_count > 0"> {{everyone.comment_count}} comment</span><span
+                                    *ngIf="everyone.comment_count > 1">s</span>
+                            </ion-item>
+                        </ion-col>
+
+
+                        <ion-list no-lines class="postComments">
+                            <div *ngFor="let comment of everyone.comments; let i=index;">
+                                <ion-item *ngIf="i < 3">
+                                    <b (click)="goToProfile(comment.sender_id)">{{comment.name}}</b>
+                                    {{comment.comment_text}}
+                                </ion-item>
+                            </div>
+                        </ion-list>
+                    </ion-card>
+                </div>
+            </div>
+            <div *ngIf="everyone_data == ''">
+                <div class="noUserFound">
+                    <img src="assets/img/no-data-found.png">
+                    <small>Be the first one to <a
+                            (click)="goToYoutube()"><b>Share</b></a> a song
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div *ngSwitchCase="'Friends'">
+            <div *ngIf="friend_data == null"></div>
+            <div *ngIf="friend_data != ''">
+                <div *ngFor="let friend of friend_data;let i=index">
+                    <ion-card id="friend_card{{i}}" no-padding="">
+                        <ion-item>
+                            <ion-avatar item-left (click)="goToProfile(friend.user)">
+                                <img src="{{friend.avatar != '' ?  friend.avatar: 'assets/img/default-img.png'}}" onError="this.src='assets/img/default-img.png';">
+                            </ion-avatar>
+                            <h2 (click)="goToProfile(friend.user)">{{friend.name}}</h2>
+                            <p><ion-icon class="iconMI-heartbeat"></ion-icon> {{friend.genius_points}}</p>
+                            <p>{{friend.postTime}}</p>
+                            <button ion-button icon-only item-right clear color="themeGrey" class="postMore"
+                                    (click)="presentActionSheet(friend, 'friend',i)">
+                                <ion-icon name="more"></ion-icon>
+                            </button>
+                        </ion-item>
+                        <ion-card-content>
+                            <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{friend.extra}}</div>
+                        </ion-card-content>
+                        <div *ngIf="friend.video_type == '1'" class="videoWrapper"
+                             [ngClass]="friend.isLoading == true ? 'flowspinner' : ''"
+                             (click)="createNewIframe(i, friend.activity_id)">
+                            <div id="friend_iframe{{i}}"></div>
+                            <img src="{{friend.thumb}}" id="friend_thumb{{i}}">
+                        </div>
+                        <div *ngIf="friend.video_type == '2'">
+                            <div class="audioWrapper" *ngIf="friend.spotify_preview != ''">
+                                <img src="{{friend.thumb}}" style="height: 309px" id="friend_spotify_thumb{{i}}" onError="this.src='assets/img/default-img.png';">
+                                <div id="audioplayer">
+                                    <button type="button" id="friend_playbutton{{i}}" class="play"
+                                            (click)="clickMusic(friend,i)"></button>
+                                    <button type="button" id="friend_pausebutton{{i}}" class="pause"
+                                            (click)="pauseMusic()"></button>
+                                </div>
+                            </div>
+                            <div class="spotifyWrapper" *ngIf="friend.spotify_preview == ''"
+                                 (click)="createNewSpotifyIframe(i,friend)">
+                                <img src="{{friend.thumb}}" style="height: 309px" id="friend_spotify_thumb{{i}}" onError="this.src='assets/img/default-img.png';">
+                                <div id="friend_spotify_iframe{{i}}"></div>
+                            </div>
+                        </div>
+                        <ion-card-content>
+                            <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{friend.title}}</div>
+                        </ion-card-content>
+                        <ion-row class="postOptions">
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label color="themeGrey">
+                                        <ion-icon [class.iconMi-heart-outline]="friend.user_liked == false"
+                                                  [class.iconMi-heart-filled]="friend.user_liked == true"></ion-icon>
+                                    </ion-label>
+                                    <ion-checkbox (click)="likeVideo(friend,user_data.id)"></ion-checkbox>
+                                </ion-item>
+                                <button ion-button icon-only clear color="themeGrey" small
+                                        (click)="openCommentList(friend)">
+                                    <ion-icon class="iconMi-comment"></ion-icon>
+                                </button>
+                            </ion-col>
+                            <ion-col class="text-right" padding-right>
+                                <button ion-button icon-left color="themeGrey" small (click)="shareVideo(friend)">
+                                    <ion-icon class="iconMi-share-group"></ion-icon>
+                                    Share
+                                </button>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-col>
+                            <ion-item class="likesCounter">
+                                <ion-icon name="heart"></ion-icon>
+                                <span *ngIf="friend.likes <= 0">Be the first to like this song</span> <span
+                                    *ngIf="friend.likes > 0">{{friend.likes}} like</span><span
+                                    *ngIf="friend.likes > 1">s</span>
+                            </ion-item>
+
+                            <ion-item class="commentsCounter" (click)="openCommentList(friend)">
+                                <ion-icon class="iconMI-comment-filled"></ion-icon>
+                                <span *ngIf="friend.comment_count <= 0"> Be the first to comment</span> <span
+                                    *ngIf="friend.comment_count > 0"> {{friend.comment_count}} comment</span><span
+                                    *ngIf="friend.comment_count > 1">s</span>
+                            </ion-item>
+                        </ion-col>
+
+                        <ion-list no-lines class="postComments">
+                            <div *ngFor="let comment of friend.comments; let i=index;">
+                                <ion-item *ngIf="i < 3">
+                                    <b (click)="goToProfile(comment.sender_id)">{{comment.name}}</b>
+                                    {{comment.comment_text}}
+                                </ion-item>
+                            </div>
+                        </ion-list>
+                    </ion-card>
+                </div>
+            </div>
+            <div *ngIf="friend_data == ''">
+                <div class="noUserFound">
+                    <img src="assets/img/no-data-found.png">
+                    <small>Your friend's suggestions will show up here. Start by <a
+                            (click)="invitePeople()"><b>Inviting</b></a> your friends or <a (click)="goToYoutube()"><b>sharing</b></a>
+                        a song
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div *ngSwitchCase="'Me'">
+            <div *ngIf="me_data == null"></div>
+            <div *ngIf="me_data != ''">
+                <div *ngFor="let me of me_data;let i=index">
+                    <ion-card id="me_card{{i}}" no-padding="">
+                        <ion-item>
+                            <ion-avatar item-left (click)="goToProfile(me.user)">
+                                <img src="{{me.avatar != '' ?  me.avatar: 'assets/img/default-img.png'}}" onError="this.src='assets/img/default-img.png';">
+                            </ion-avatar>
+                            <h2 (click)="goToProfile(me.user)">{{me.name}}</h2>
+                            <p>{{me.postTime}}</p>
+                            <button ion-button icon-only item-right clear color="themeGrey" class="postMore"
+                                    (click)="presentActionSheet(me, 'me',i)">
+                                <ion-icon name="more"></ion-icon>
+                            </button>
+                        </ion-item>
+                        <ion-card-content>
+                            <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{me.extra}}</div>
+                        </ion-card-content>
+                        <div class="videoWrapper" *ngIf="me.video_type == '1'"
+                             (click)="createNewIframe(i, me.activity_id)">
+                            <div id="me_iframe{{i}}"></div>
+                            <img src="{{me.thumb}}" id="me_thumb{{i}}">
+                        </div>
+                        <div *ngIf="me.video_type == '2'">
+                            <div class="audioWrapper" *ngIf="me.spotify_preview != ''">
+                                <img src="{{me.thumb}}" style="height: 309px" id="me_spotify_thumb{{i}}">
+                                <div id="audioplayer">
+                                    <button type="button" id="me_playbutton{{i}}" class="play"
+                                            (click)="clickMusic(me,i)"></button>
+                                    <button type="button" id="me_pausebutton{{i}}" class="pause"
+                                            (click)="pauseMusic()"></button>
+                                </div>
+                            </div>
+                            <div class="spotifyWrapper" *ngIf="me.spotify_preview == ''"
+                                 (click)="createNewSpotifyIframe(i,me)">
+                                <img src="{{me.thumb}}" style="height: 309px" id="me_spotify_thumb{{i}}">
+                                <div id="me_spotify_iframe{{i}}"></div>
+                            </div>
+                        </div>
+                        <ion-card-content>
+                            <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{me.title}}</div>
+                        </ion-card-content>
+                        <ion-row class="postOptions">
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label color="themeGrey">
+                                        <ion-icon [class.iconMi-heart-outline]="me.user_liked == false"
+                                                  [class.iconMi-heart-filled]="me.user_liked == true"></ion-icon>
+                                    </ion-label>
+                                    <ion-checkbox (click)="likeVideo(me,user_data.id)"></ion-checkbox>
+                                </ion-item>
+                                <button ion-button icon-only clear color="themeGrey" small
+                                        (click)="openCommentList(me)">
+                                    <ion-icon class="iconMi-comment"></ion-icon>
+                                </button>
+                            </ion-col>
+                            <ion-col class="text-right" padding-right>
+                                <button ion-button icon-left color="themeGrey" small (click)="shareVideo(me)">
+                                    <ion-icon class="iconMi-share-group"></ion-icon>
+                                    Share
+                                </button>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-col>
+                            <ion-item class="likesCounter">
+                                <ion-icon name="heart"></ion-icon>
+                                <span *ngIf="me.likes <= 0">Be the first to like this song</span> <span
+                                    *ngIf="me.likes > 0">{{me.likes}} like</span><span
+                                    *ngIf="me.likes > 1">s</span>
+                            </ion-item>
+
+                            <ion-item class="commentsCounter" (click)="openCommentList(me)">
+                                <ion-icon class="iconMI-comment-filled"></ion-icon>
+                                <span *ngIf="me.comment_count <= 0"> Be the first to comment</span> <span
+                                    *ngIf="me.comment_count > 0"> {{me.comment_count}} comment</span><span
+                                    *ngIf="me.comment_count > 1">s</span>
+                            </ion-item>
+                        </ion-col>
+                        <ion-list no-lines class="postComments">
+                            <div *ngFor="let comment of me.comments; let i=index;">
+                                <ion-item *ngIf="i < 3">
+                                    <b (click)="goToProfile(comment.sender_id)">{{comment.name}}</b>
+                                    {{comment.comment_text}}
+                                </ion-item>
+                            </div>
+                        </ion-list>
+                    </ion-card>
+                </div>
+            </div>
+            <div *ngIf="me_data == ''">
+                <div class="noUserFound">
+                    <img src="assets/img/no-data-found.png">
+                    <small><a (click)="goToYoutube()"><b>Share</b></a> a song
+                    </small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <ion-fab bottom left edge (click)="playall(suffleKey, suffleValue)" *ngIf="suffleExit == false">
+        <button ion-fab id="fab-play-all" text-center>
+            <ion-icon name="ios-play" ></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab bottom left edge (click)="playpause(suffleKey, suffleValue)" *ngIf="suffleExit == true">
+        <button ion-fab id="fab-stop-all" text-center>
+            <ion-icon name="ios-square"></ion-icon>
+        </button>
+    </ion-fab>
+
+    <ion-fab bottom right edge (click)="backToTop()">
+        <button ion-fab id="fab-back-to-top">
+            <ion-icon name="ios-arrow-up"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

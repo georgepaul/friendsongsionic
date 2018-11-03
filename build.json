@@ -1,0 +1,18 @@
+{
+  "android": {
+    "debug": {
+      "keystore": "my-release-key.keystore",
+      "storePassword": "mind@123",
+      "alias": "alias_name",
+      "password" : "mind@123",
+      "keystoreType": ""
+    },
+    "release": {
+      "keystore": "friendsongs-release-key.keystore",
+      "storePassword": "123456789",
+      "alias": "friendsongs",
+      "password" : "123456789",
+      "keystoreType": ""
+    }
+  }
+}

@@ -1,0 +1,7 @@
+<ion-tabs #myTab [selectedIndex]="mySelectedIndex">
+  <ion-tab (ionSelect)="loadTab(0)" [root]="tab1Root"  tabIcon="home"></ion-tab>
+  <ion-tab (ionSelect)="loadTab(1)" [root]="tab2Root"  tabIcon="search"></ion-tab>
+  <ion-tab (ionSelect)="onTabSelected()" [root]=""  tabIcon="FooterLogo"></ion-tab>
+  <ion-tab (ionSelect)="loadTab(3)" [root]="tab4Root"  tabIcon="globe"></ion-tab>
+  <ion-tab (ionSelect)="loadTab(4)" [root]="tab5Root"  tabIcon="person"></ion-tab>
+</ion-tabs>

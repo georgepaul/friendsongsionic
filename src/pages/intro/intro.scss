@@ -1,0 +1,51 @@
+  page-intro {
+
+    .swiper-pagination-bullets{
+      top: 2.4vh;
+      bottom: auto !important;
+
+      & .swiper-pagination-bullet-active{
+        background: #fff;
+      }
+    }
+
+    ion-slide {
+       background-color: $themeBlue;
+      display: block;
+
+      .slide-zoom{
+        height: 100%;
+
+        h2{
+          margin: 0;
+          color: #fff;
+          font-weight: normal;
+        }
+
+        .introParent{
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+
+          .introTxt{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .introImg{
+            flex: 3;
+            justify-content: center;
+            display: flex;
+          }
+        }
+
+      }
+    }
+
+    ion-slide img {
+      height: 75vh !important;
+      width: auto !important;
+    }
+
+  }

@@ -1,0 +1,279 @@
+<ion-header>
+    <ion-navbar color="light">
+        <ion-title *ngIf="user_data.id != user_id">{{profile.name}}</ion-title>
+        <ion-title *ngIf="user_data.id == user_id">{{user_data.name}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="user_data.id == user_id">
+        <ion-row padding class="userProfileMain">
+            <ion-col width-67 class="noPaddingLeft">
+                <div class="profilePictureMain">
+                    <img [src]="displayImage" (click)="selectImage()" onError="this.src='assets/img/default-img.png';">
+                </div>
+                <h2>@{{user_data.name}}</h2>
+            </ion-col>
+            <ion-col width-33 class="noPaddingRight noPaddingLeft">
+                <button ion-button full color="themeGrey" (click)="goToSettings(user_data.name)" small class="editProfileButton">Edit
+                    Profile
+                </button>
+            </ion-col>
+        </ion-row>
+        <ion-row class="profileCordinates text-center">
+            <ion-col>
+                <span>{{profile.song_count}}</span>
+                Posts
+            </ion-col>
+            <ion-col>
+                <span>{{profile.followers}}</span>
+                Followers
+            </ion-col>
+            <ion-col>
+                <span>{{profile.following}}</span>
+                Following
+            </ion-col>
+            <ion-col>
+                <span>{{profile.g_point}}</span>
+                Genius Score
+            </ion-col>
+        </ion-row>
+        <div *ngIf="profileFeeds != '' || profileFeeds != null">
+            <div *ngFor="let profile of profileFeeds;let i=index">
+                <ion-card id="profile_card{{i}}" >
+                    <ion-item>
+                        <ion-avatar item-left (click)="goToProfile()">
+                            <img src="{{profile.avatar != '' ?  profile.avatar: 'assets/img/default-img.png'}}" onError="this.src='assets/img/default-img.png';">
+                        </ion-avatar>
+                        <h2 (click)="goToProfile()">{{user_data.name}}</h2>
+                        <p>{{profile.postTime}}</p>
+                        <button ion-button icon-only item-right clear color="themeGrey" class="postMore" (click)="presentActionSheet(profile, 'profile', i)">
+                            <ion-icon name="more"></ion-icon>
+                        </button>
+                    </ion-item>
+
+                    <ion-card-content>
+                        <p>{{profile.extra}}</p>
+                    </ion-card-content>
+
+                    <div class="videoWrapper" *ngIf="profile.video_type == '1'" [ngClass]="profile.isLoading == true ? 'flowspinner' : ''"  (click)="createNewIframe(i)">
+                        <div id="profile_iframe{{i}}"></div>
+                        <img src="{{profile.thumb}}" id="profile_thumb{{i}}">
+                    </div>
+                    <div *ngIf="profile.video_type == '2'">
+                        <div class="audioWrapper" *ngIf="profile.spotify_preview != ''">
+                            <img src="{{profile.thumb}}" style="height: 309px"  id="profile_spotify_thumb{{i}}">
+                            <div id="audioplayer">
+                                <button type="button" id="profile_playbutton{{i}}" class="play" (click)="clickMusic(profile,i)"></button>
+                                <button type="button" id="profile_pausebutton{{i}}" class="pause" (click)="pauseMusic()"></button>
+                            </div>
+                        </div>
+                        <div class="spotifyWrapper" *ngIf="profile.spotify_preview == ''" (click)="createNewSpotifyIframe(i,profile)">
+                            <img src="{{profile.thumb}}" style="height: 309px" id="profile_spotify_thumb{{i}}">
+                            <div id="profile_spotify_iframe{{i}}"></div>
+                        </div>
+                    </div>
+
+                    <ion-card-content>
+                        <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{profile.title}}</div>
+                    </ion-card-content>
+
+                    <ion-row class="postOptions">
+                        <ion-col>
+                            <ion-item>
+                                <ion-label color="themeGrey">
+                                    <ion-icon class="iconMi-heart-outline" *ngIf="profile.user_liked == false"></ion-icon>
+                                    <ion-icon class="iconMi-heart-filled" *ngIf="profile.user_liked == true"></ion-icon>
+                                </ion-label>
+                                <ion-checkbox [(ngModel)]="me_likeValue[i]" id="me_likebutton_{{i}}"
+                                              (click)="likeVideo(profile,user_data.id)"></ion-checkbox>
+                            </ion-item>
+
+                            <button ion-button icon-only clear color="themeGrey" small (click)="openCommentList(profile)">
+                                <ion-icon class="iconMi-comment"></ion-icon>
+                            </button>
+                        </ion-col>
+                        <ion-col class="text-right" padding-right>
+                            <button ion-button icon-left color="themeGrey" small (click)="shareVideo(profile)">
+                                <ion-icon class="iconMi-share-group"></ion-icon>
+                                Share
+                            </button>
+                        </ion-col>
+
+                    </ion-row>
+
+                    <ion-col>
+                        <ion-item class="likesCounter">
+                            <ion-icon name="heart"></ion-icon>
+                            <span *ngIf="profile.likes <= 0">Be the first to like this song</span> <span
+                                *ngIf="profile.likes > 0">{{profile.likes}} like</span><span
+                                *ngIf="profile.likes > 1">s</span>
+                        </ion-item>
+
+                        <ion-item class="commentsCounter" (click)="openCommentList(profile)">
+                            <ion-icon class="iconMI-comment-filled"></ion-icon>
+                            <span *ngIf="profile.comment_count <= 0"> Be the first to comment</span> <span
+                                *ngIf="profile.comment_count > 0"> {{profile.comment_count}} comment</span><span
+                                *ngIf="profile.comment_count > 1">s</span>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-list no-lines class="postComments" *ngIf="profile.comments">
+                        <div *ngFor="let comment of profile.comments; let i=index;">
+                            <ion-item  *ngIf="i < 3">
+                                <b>{{comment.name}}</b> {{comment.comment_text}}
+                            </ion-item>
+                        </div>
+                    </ion-list>
+                </ion-card>
+            </div>
+        </div>
+        <div *ngIf="profileFeeds == ''">
+            <div class="noDataFound noDataFoundProfile">
+                <img src="assets/img/no-data-found.png">
+                No Data Found
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="user_data.id != user_id">
+        <ion-row padding class="userProfileMain">
+            <ion-col width-67 class="noPaddingLeft">
+                <div class="profilePictureMain" (click)="viewProfileImage()">
+                    <img src="{{profile.avatar  != '' ?  profile.avatar: 'assets/img/default-img.png'}}" onError="this.src='assets/img/default-img.png';">
+                </div>
+                <h2>@{{profile.name}}</h2>
+            </ion-col>
+            <ion-col width-33 class="noPaddingRight">
+                <button ion-button full color="themeGrey" outline (click)="followuser(profile.id)"
+                        *ngIf="profile.is_following == 'false'" small class="follow">Follow
+                </button>
+                <button ion-button full color="themeGrey" (click)="unfollowUser(profile.id)"
+                        *ngIf="profile.is_following != 'false'" small class="following">Following
+                </button>
+            </ion-col>
+        </ion-row>
+        <ion-row class="profileCordinates text-center">
+            <ion-col>
+                <span>{{profile.song_count}}</span>
+                Posts
+            </ion-col>
+            <ion-col>
+                <span>{{profile.followers}}</span>
+                Followers
+            </ion-col>
+            <ion-col>
+                <span>{{profile.following}}</span>
+                Following
+            </ion-col>
+            <ion-col>
+                <span>{{profile.g_point}}</span>
+                Genius Score
+            </ion-col>
+        </ion-row>
+        <div *ngIf="profileFeeds != '' || profileFeeds != null">
+            <div *ngFor="let profile of profileFeeds;let i=index">
+                <ion-card id="other_card{{i}}" no-padding="">
+                    <ion-item>
+                        <ion-avatar item-left>
+                            <img src="{{profile.avatar != '' ?  profile.avatar: 'assets/img/default-img.png'}}" onError="this.src='assets/img/default-img.png';">
+                        </ion-avatar>
+                        <h2>{{profile.name}}</h2>
+                        <p>{{profile.postTime}}</p>
+                        <button ion-button icon-only item-right clear color="themeGrey" class="postMore" (click)="presentActionSheet(profile, 'other', i)">
+                            <ion-icon name="more"></ion-icon>
+                        </button>
+                    </ion-item>
+
+                    <ion-card-content>
+                        <p>{{profile.extra}}</p>
+                    </ion-card-content>
+
+                    <div class="videoWrapper" *ngIf="profile.video_type == '1'" [ngClass]="profile.isLoading == true ? 'flowspinner' : ''" (click)="createNewIframe(i)">
+                        <div id="other_iframe{{i}}"></div>
+                        <img src="{{profile.thumb}}" id="other_profile_thumb{{i}}" >
+                    </div>
+                    <div *ngIf="profile.video_type == '2'">
+                        <div class="audioWrapper" *ngIf="profile.spotify_preview != ''">
+                            <img src="{{profile.thumb}}" style="height: 309px"  id="other_spotify_thumb{{i}}">
+                            <div id="audioplayer">
+                                <button type="button" id="other_playbutton{{i}}" class="play" (click)="clickMusic(profile.spotify_preview,i)"></button>
+                                <button type="button" id="other_pausebutton{{i}}" class="pause" (click)="pauseMusic()"></button>
+                            </div>
+                        </div>
+                        <div class="spotifyWrapper" *ngIf="profile.spotify_preview == ''"  (click)="createNewSpotifyIframe(i,profile)">
+                            <img src="{{profile.thumb}}" style="height: 309px" id="other_spotify_thumb{{i}}">
+                            <div id="other_spotify_iframe{{i}}"></div>
+                        </div>
+                    </div>
+
+                    <ion-card-content>
+                        <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{profile.title}}</div>
+                    </ion-card-content>
+
+                    <ion-row class="postOptions">
+                        <ion-col>
+                            <ion-item>
+                                <ion-label color="themeGrey">
+                                    <ion-icon class="iconMi-heart-outline" *ngIf="profile.user_liked == false"></ion-icon>
+                                    <ion-icon class="iconMi-heart-filled" *ngIf="profile.user_liked == true"></ion-icon>
+                                </ion-label>
+                                <ion-checkbox [(ngModel)]="me_likeValue[i]" (click)="likeVideo(profile,user_data.id)"></ion-checkbox>
+                            </ion-item>
+
+                            <button ion-button icon-only clear color="themeGrey" small (click)="openCommentList(profile)">
+                                <ion-icon class="iconMi-comment"></ion-icon>
+                            </button>
+                        </ion-col>
+                        <ion-col class="text-right" padding-right>
+                            <button ion-button icon-left color="themeGrey" small (click)="shareVideo(profile)">
+                                <ion-icon class="iconMi-share-group"></ion-icon>
+                                Share
+                            </button>
+                        </ion-col>
+
+                    </ion-row>
+                    <ion-col>
+                        <ion-item class="likesCounter">
+                            <ion-icon name="heart"></ion-icon>
+                            <span *ngIf="profile.likes <= 0">Be the first to like this song</span> <span
+                                *ngIf="profile.likes > 0">{{profile.likes}} like</span><span
+                                *ngIf="profile.likes > 1">s</span>
+                        </ion-item>
+
+                        <ion-item class="commentsCounter" (click)="openCommentList(profile)">
+                            <ion-icon class="iconMI-comment-filled"></ion-icon>
+                            <span *ngIf="profile.comment_count <= 0"> Be the first to comment</span> <span
+                                *ngIf="profile.comment_count > 0"> {{profile.comment_count}} comment</span><span
+                                *ngIf="profile.comment_count > 1">s</span>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-list no-lines class="postComments" *ngIf="profile.comments">
+                        <div *ngFor="let comment of profile.comments; let i=index;">
+                            <ion-item *ngIf="i < 3">
+                                <b>{{comment.name}}</b> {{comment.comment_text}}
+                            </ion-item>
+                        </div>
+                    </ion-list>
+                </ion-card>
+            </div>
+        </div>
+        <div *ngIf="profileFeeds == ''">
+            <div class="noDataFound noDataFoundProfile">
+                <img src="assets/img/no-data-found.png">
+                No Data Found
+            </div>
+        </div>
+
+    </div>
+    <ion-fab bottom right edge (click)="backToTop()">
+        <button ion-fab id="fab-back-to-top-profile">
+            <ion-icon name="ios-arrow-up"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

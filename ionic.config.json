@@ -1,0 +1,8 @@
+{
+  "name": "FriendSongs",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "pro_id": "fb152f58"
+}

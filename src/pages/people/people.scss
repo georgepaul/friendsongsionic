@@ -1,0 +1,93 @@
+page-people {
+
+  ion-list[inset].friendsList {
+    margin: 0;
+
+    .fontWeight {
+      font-weight: 700 !important;
+
+    }
+    .font-sub-header{
+      font-size: 1.2rem;
+    }
+
+    ion-item {
+      ion-avatar {
+        img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+      min-height: 7rem;
+      font-size: 1.4rem;
+
+      .followButton {
+        margin: 0;
+        .item-inner {
+          border: none !important;
+        }
+        ion-item {
+          border: none !important;
+        }
+
+        ion-checkbox {
+          margin: 0 !important;
+        }
+
+        .checkbox-icon {
+          display: none;
+        }
+
+        /*input[type=checkbox]{
+          display: none;
+        }*/
+        ion-label {
+
+          .follow {
+            display: block;
+            background: transparent;
+            color: $themeGrey;
+            border: 1px solid $themeGrey;
+            padding: 5px 5px;
+            width: 85px;
+            text-align: center;
+            border-radius: 5px;
+          }
+
+          .following {
+            display: block;
+            background: $themeGrey;
+            color: #fff;
+            width: 85px;
+            border: 1px solid $themeGrey;
+            padding: 5px 5px;
+            border-radius: 5px;
+            text-align: center;
+          }
+        }
+
+        /*input[type=checkbox] + label {
+          display: block;
+          width: 80px;
+          text-align: center;
+          font-size: 14px;
+
+
+        }
+        input[type=checkbox]:checked + label {
+          .follow{
+            display: none;
+          }
+          .following{
+            display: block;
+          }
+        }*/
+      }
+    }
+  }
+
+  .searchShareBtnWrapper {
+    padding-left: 16px;
+  }
+
+}

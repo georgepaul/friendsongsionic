@@ -1,0 +1,111 @@
+<ion-header>
+    <ion-navbar color="light">
+        <ion-title>Song Info</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="vDetail_data != ''">
+
+        <div *ngFor="let vDetail of vDetail_data;let i=index">
+            <ion-card id="vDetail_card" no-padding="">
+                <ion-item>
+                    <ion-avatar item-left (click)="goToProfile(vDetail.user)">
+                        <img src="{{vDetail.avatar != '' ?  vDetail.avatar: 'assets/img/default-img.png'}}" onError="this.src='assets/img/default-img.png';">
+                    </ion-avatar>
+                    <h2 (click)="goToProfile(vDetail.user)">{{vDetail.name}}</h2>
+                    <p>{{vDetail.postTime}}</p>
+                    <button ion-button icon-only item-right clear color="themeGrey" class="postMore"
+                            (click)="presentActionSheet(vDetail, 'vDetail')">
+                        <ion-icon name="more"></ion-icon>
+                    </button>
+                </ion-item>
+
+
+                <ion-card-content>
+                    <div class="text-ellipsis" style="-webkit-box-orient: vertical;">{{vDetail.extra}}</div>
+                </ion-card-content>
+
+                <div class="videoWrapper" *ngIf="vDetail.video_type == '1'"
+                     [ngClass]="vDetail.isLoading == true ? 'flowspinner' : ''"
+                     (click)="createNewIframe(i)">
+                    <div id="iframe"></div>
+                    <img src="{{vDetail.thumb}}" id="vDetail_thumb">
+                </div>
+                <div *ngIf="vDetail.video_type == '2'">
+                    <div class="audioWrapper" *ngIf="vDetail.spotify_preview != ''">
+                        <img src="{{vDetail.thumb}}" style="height: 309px" id="vDetail_spotify_thumb">
+                        <div id="audioplayer">
+                            <button type="button" id="vDetail_playbutton" class="play"
+                                    (click)="clickMusic(vDetail)"></button>
+                            <button type="button" id="vDetail_pausebutton" class="pause"
+                                    (click)="pauseMusic()"></button>
+                        </div>
+                    </div>
+                    <div class="spotifyWrapper" *ngIf="vDetail.spotify_preview == ''"
+                         (click)="createNewSpotifyIframe(vDetail)">
+                        <img src="{{vDetail.thumb}}" style="height: 309px" id="vDetail_spotify_thumb">
+                        <div id="vDetail_spotify_iframe"></div>
+                    </div>
+                </div>
+
+                <ion-card-content>
+                    <div class="text-ellipsis" style="-webkit-box-orient: vertical;"
+                         style="-webkit-box-orient: vertical;">{{vDetail.title}}
+                    </div>
+                </ion-card-content>
+
+                <ion-row class="postOptions">
+
+                    <ion-col>
+                        <ion-item>
+                            <ion-label color="themeGrey">
+                                <ion-icon [class.iconMi-heart-outline]="vDetail.user_liked == false"
+                                          [class.iconMi-heart-filled]="vDetail.user_liked == true"></ion-icon>
+                            </ion-label>
+                            <ion-checkbox (click)="likeVideo(vDetail,user_data.id)"></ion-checkbox>
+                        </ion-item>
+                        <button ion-button icon-only clear color="themeGrey" small
+                                (click)="openCommentList(vDetail)">
+                            <ion-icon class="iconMi-comment"></ion-icon>
+                        </button>
+                    </ion-col>
+
+                    <ion-col class="text-right" padding-right>
+                        <button ion-button icon-left color="themeGrey" small (click)="shareVideo(vDetail)">
+                            <ion-icon class="iconMi-share-group"></ion-icon>
+                            Share
+                        </button>
+                    </ion-col>
+
+
+                </ion-row>
+
+                <ion-col>
+                    <ion-item class="likesCounter">
+                        <ion-icon name="heart"></ion-icon>
+                        <span *ngIf="vDetail.likes <= 0">Be the first to like this song</span> <span
+                            *ngIf="vDetail.likes > 0">{{vDetail.likes}} like</span><span
+                            *ngIf="vDetail.likes > 1">s</span>
+                    </ion-item>
+
+                    <ion-item class="commentsCounter" (click)="openCommentList(vDetail)">
+                        <ion-icon class="iconMI-comment-filled"></ion-icon>
+                        <span *ngIf="vDetail.comment_count <= 0"> Be the first to comment</span> <span
+                            *ngIf="vDetail.comment_count > 0"> {{vDetail.comment_count}} comment</span><span
+                            *ngIf="vDetail.comment_count > 1">s</span>
+                    </ion-item>
+                </ion-col>
+
+                <ion-list no-lines class="postComments">
+                    <div *ngFor="let comment of vDetail.comments; let i=index;">
+                        <ion-item *ngIf="i < 3">
+                            <b>{{comment.name}}</b> {{comment.comment_text}}
+                        </ion-item>
+                    </div>
+                </ion-list>
+            </ion-card>
+        </div>
+
+    </div>
+</ion-content>

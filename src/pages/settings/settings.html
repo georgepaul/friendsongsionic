@@ -1,0 +1,90 @@
+<ion-header>
+    <ion-navbar color="light">
+        <ion-title>Settings</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-item-divider color="light">
+        <img src="assets/img/spotify.png" style="width: 30%" >
+        <button ion-button clear item-right id='spotifyConnect' *ngIf="spotifyloginStatus != 'true'" (click)="connectSpotify(accessToken)">Connect</button>
+        <button ion-button clear item-right *ngIf="spotifyloginStatus == 'true'">Connected</button>
+    </ion-item-divider>
+    <ion-item-divider color="light"> <a (click)="termsAndCondition()"><b>Terms & Conditions</b></a></ion-item-divider>
+    <ion-item-divider color="light"> <a (click)="privecyPolice()"><b>Privacy Policy</b></a>  </ion-item-divider>
+    <form (ngSubmit)="saveProfile()">
+        <ion-item-divider color="light" *ngIf="this.userData && this.userData.login_type == 'normal'"> Change Password </ion-item-divider>
+        <ion-item-group *ngIf="this.userData && this.userData.login_type == 'normal'">
+            <ion-item>
+                <ion-input [type]="currentPasswordType" placeholder="Current Password"
+                           [(ngModel)]="editProfile.current_password"
+                           name="old_password"></ion-input>
+                <button type="button" ion-button icon-only item-right clear color="themeGrey" large
+                        (click)="currentPassword()">
+                    <ion-icon [name]="currentPasswordIcon" class="eyeIcon"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <ion-input [type]="newPasswordType" placeholder="New Password" name="new_password"
+                           [(ngModel)]="editProfile.new_password"
+                           [disabled]="!editProfile.current_password" (click)="newPasswordText()"></ion-input>
+                <button type="button" ion-button icon-only item-right clear color="themeGrey" large
+                        (click)="newPassword()"
+                        [disabled]="!editProfile.current_password">
+                    <ion-icon [name]="newPasswordIcon" class="eyeIcon"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <ion-input [type]="confirmPasswordType" placeholder="Confirm Password"
+                           [(ngModel)]="editProfile.confirm_password"
+                           name="confirm_password" [disabled]="!editProfile.current_password"></ion-input>
+                <button type="button" ion-button icon-only item-right clear color="themeGrey" large
+                        (click)="confirmPassword()"
+                        [disabled]="!editProfile.current_password">
+                    <ion-icon [name]="confirmPasswordIcon" class="eyeIcon"></ion-icon>
+                </button>
+            </ion-item>
+        </ion-item-group>
+        <ion-item-divider color="light" margin-top> Notification </ion-item-divider>
+        <ion-item-group>
+            <ion-item>
+                <ion-label>Push Notifications</ion-label>
+                <ion-toggle checked="" color="themeGrey" name="pushNotification"
+                            [(ngModel)]="editProfile.push_notification" (ngModelChange)="pushNotification(editProfile.push_notification)"></ion-toggle>
+            </ion-item>
+        </ion-item-group>
+
+        <ion-item-divider *ngIf="this.userData && this.userData.login_type != 'normal'" color="light" margin-top> Share To Facebook </ion-item-divider>
+        <ion-item-group *ngIf="this.userData && this.userData.login_type != 'normal'">
+            <ion-item>
+                <ion-label>Enable</ion-label>
+                <ion-toggle checked="" color="themeGrey" name="facebookShare"
+                            [(ngModel)]="editProfile.facebookShare" (ngModelChange)="facebookShare(editProfile.facebookShare)"></ion-toggle>
+            </ion-item>
+        </ion-item-group>
+
+        <ion-item-divider color="light" margin-top> User Name </ion-item-divider>
+
+        <ion-item-group>
+            <ion-item class="editUsername">
+                <ion-input type="text" name="username" [(ngModel)]="editProfile.username"></ion-input>
+            </ion-item>
+        </ion-item-group>
+
+        <ion-item-group>
+
+        </ion-item-group>
+        <div class="button-pad">
+            <button ion-button block color="themeGrey" type="submit">Save</button>
+        </div>
+    </form>
+    <div class="button-pad">
+        <button ion-button block outline color="themeGrey" (click)="logout()">Logout</button>
+    </div>
+</ion-content>
+

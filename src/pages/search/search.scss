@@ -1,0 +1,167 @@
+page-search {
+
+  .searchShareBtnWrapper {
+    padding-left: 16px;
+  }
+  .toolbarWithSegment {
+    &.toolbar-md {
+      padding: 0;
+      align-items: flex-end;
+      min-height: 42px;
+      .segment-md .youtube.segment-button {
+        border-color: #B31217;
+        img {
+          max-width: 50% !important;
+          margin-top: -5px !important;
+          content: url("../assets/img/YouTube.png");
+        }
+
+      }
+
+      .segment-md .youtube.segment-button.segment-activated {
+        border-color: #ffffff;
+        img {
+          max-width: 50% !important;
+          margin-top: -5px !important;
+          content: url("../assets/img/YouTube-White.png");
+        }
+
+        /* IE10+ */
+        background-image: -ms-linear-gradient(top, #E52D27 0%, #B31217 100%);
+
+        /* Mozilla Firefox */
+        background-image: -moz-linear-gradient(top, #E52D27 0%, #B31217 100%);
+
+        /* Opera */
+        background-image: -o-linear-gradient(top, #E52D27 0%, #B31217 100%);
+
+        /* Webkit (Safari/Chrome 10) */
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E52D27), color-stop(100, #B31217));
+
+        /* Webkit (Chrome 11+) */
+        background-image: -webkit-linear-gradient(top, #E52D27 0%, #B31217 100%);
+
+        /* W3C Markup */
+        background-image: linear-gradient(to bottom, #E52D27 0%, #B31217 100%);
+      }
+
+      .segment-md .spotify.segment-button {
+        border-color: #1DB954;
+        img{
+          max-width: 50% !important;
+          margin-top: 8px !important;
+          content: url("../assets/img/spotify.png");
+        }
+      }
+
+      .segment-md .spotify.segment-button.segment-activated {
+        border-color: #ffffff;
+        img{
+          max-width: 50% !important;
+          margin-top: 8px !important;
+          content: url("../assets/img/Spotify_White.png");
+        }
+        /* IE10+ */
+        background-image: -ms-linear-gradient(top, #1DB954 0%, #1DB954 100%);
+
+        /* Mozilla Firefox */
+        background-image: -moz-linear-gradient(top, #1DB954 0%, #1DB954 100%);
+
+        /* Opera */
+        background-image: -o-linear-gradient(top, #1DB954 0%, #1DB954 100%);
+
+        /* Webkit (Safari/Chrome 10) */
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #1DB954), color-stop(100, #1DB954));
+
+        /* Webkit (Chrome 11+) */
+        background-image: -webkit-linear-gradient(top, #1DB954 0%, #1DB954 100%);
+
+        /* W3C Markup */
+        background-image: linear-gradient(to bottom, #1DB954 0%, #1DB954 100%);
+      }
+    }
+  }
+
+  .toolbarWithSegment {
+    &.toolbar-ios {
+      padding: 0;
+      align-items: flex-end;
+      min-height: 42px;
+      .segment-ios .youtube.segment-button {
+        border-color: #B31217;
+        border-right: none;
+        img {
+          max-width: 65% !important;
+          margin-top: -8px !important;
+          content: url("../assets/img/YouTube.png");
+        }
+
+      }
+
+      .segment-ios .youtube.segment-button.segment-activated {
+        border-color: #B31217;
+        border-right: none;
+        img {
+          max-width: 65% !important;
+          margin-top: -8px !important;
+          content: url("../assets/img/YouTube-White.png");
+        }
+
+        /* IE10+ */
+        background-image: -ms-linear-gradient(top, #E52D27 0%, #B31217 100%);
+
+        /* Mozilla Firefox */
+        background-image: -moz-linear-gradient(top, #E52D27 0%, #B31217 100%);
+
+        /* Opera */
+        background-image: -o-linear-gradient(top, #E52D27 0%, #B31217 100%);
+
+        /* Webkit (Safari/Chrome 10) */
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E52D27), color-stop(100, #B31217));
+
+        /* Webkit (Chrome 11+) */
+        background-image: -webkit-linear-gradient(top, #E52D27 0%, #B31217 100%);
+
+        /* W3C Markup */
+        background-image: linear-gradient(to bottom, #E52D27 0%, #B31217 100%);
+      }
+
+      .segment-ios .spotify.segment-button {
+        border-color: #1DB954;
+        border-left:none;
+        img{
+          max-width: 65% !important;
+          margin-top: 3px !important;
+          content: url("../assets/img/spotify.png");
+        }
+      }
+
+      .segment-ios .spotify.segment-button.segment-activated {
+        border-color: #1DB954;
+        border-left:none;
+        img{
+          max-width: 65% !important;
+          margin-top: 3px !important;
+          content: url("../assets/img/Spotify_White.png");
+        }
+        /* IE10+ */
+        background-image: -ms-linear-gradient(top, #1DB954 0%, #1DB954 100%);
+
+        /* Mozilla Firefox */
+        background-image: -moz-linear-gradient(top, #1DB954 0%, #1DB954 100%);
+
+        /* Opera */
+        background-image: -o-linear-gradient(top, #1DB954 0%, #1DB954 100%);
+
+        /* Webkit (Safari/Chrome 10) */
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #1DB954), color-stop(100, #1DB954));
+
+        /* Webkit (Chrome 11+) */
+        background-image: -webkit-linear-gradient(top, #1DB954 0%, #1DB954 100%);
+
+        /* W3C Markup */
+        background-image: linear-gradient(to bottom, #1DB954 0%, #1DB954 100%);
+      }
+    }
+  }
+}

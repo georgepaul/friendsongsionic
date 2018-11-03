@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button icon-only color="light" (click)="closeCommntsModel()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>{{profile.name}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+    <div class="user-center">
+        <div class="user-profile" [ngClass]="profile.loading == true ? 'flowspinner' : ''" >
+            <img src="{{profile.avatar}}" onError="this.src='assets/img/default-img.png';">
+        </div>
+    </div>
+</ion-content>

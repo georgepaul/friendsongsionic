@@ -1,0 +1,36 @@
+page-settings {
+
+  ion-item-divider{
+    &.item{
+      font-size: 14px;
+      font-weight:bold;
+      color: rgb(51, 51, 51);
+
+      border-bottom: 0.55px solid #c8c7cc !important;
+      border-top: 0.55px solid #c8c7cc !important;
+    }
+  }
+
+  .editUsername{
+
+    .item-inner {
+      border-bottom: 0.55px solid #c8c7cc !important;
+    }
+  }
+
+  ion-icon[name="close"]{
+    font-size: 2.0em;
+  }
+
+  ion-content{
+    .eyeIcon{
+      font-size: 1.0em;
+    }
+  }
+  .button-pad{
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 16px;
+
+  }
+}

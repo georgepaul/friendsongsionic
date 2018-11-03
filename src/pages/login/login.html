@@ -1,0 +1,128 @@
+<!--
+  Generated template for the Login page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header color="themeGrey">
+    <ion-navbar color="light" hideBackButton>
+        <ion-title class="title-logo"><img class="header-logo" src="assets/img/logo.png"> FriendSongs</ion-title>
+    </ion-navbar>
+
+    <ion-toolbar color="light" class="toolbarWithSegment" padding-top>
+        <ion-segment [(ngModel)]="loginSignup">
+            <ion-segment-button value="Login" (click)="chageSegmaent()">
+                Log in
+            </ion-segment-button>
+            <ion-segment-button value="Signup" (click)="chageSegmaent()">
+                Sign up
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+    <div [ngSwitch]="loginSignup">
+        <div *ngSwitchCase="'Login'">
+            <ion-row>
+                <ion-col>
+                    <button ion-button full color="themeBlue" (click)="signupFacebook()">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                        Signin with Facebook
+                    </button>
+                    <button ion-button icon-left block color="danger" (click)="loginWithGmail()">
+                        <ion-icon name="logo-googleplus"></ion-icon>
+                        Signin with Google
+                    </button>
+                </ion-col>
+            </ion-row>
+            <form [formGroup]="login">
+                <ion-list>
+                    <ion-item>
+                        <ion-label floating>Email</ion-label>
+                        <ion-input type="text" formControlName="email" autocapitalize="none"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Password</ion-label>
+                        <ion-input [type]="inputPasswordType" formControlName="password"
+                                   autocapitalize="none"></ion-input>
+                        <button ion-button icon-only item-right clear large (click)="toggleInputPassword()">
+                            <ion-icon [name]="inputPasswordIcon" color="themeGrey" class="eyeIcon"></ion-icon>
+                        </button>
+                    </ion-item>
+                </ion-list>
+
+                <ion-row>
+                    <ion-col width-50>
+                        <button ion-button full clear color="themeBlue" (click)="forgotPassword()">Forgot Password?
+                        </button>
+                    </ion-col>
+                    <ion-col width-50>
+                        <button ion-button full color="themeBlue" (click)="userLogin()" [disabled]="!login.valid">Log
+                            in
+                        </button>
+                    </ion-col>
+                  </ion-row>
+            </form>
+        </div>
+
+        <div *ngSwitchCase="'Signup'">
+            <ion-row>
+                <ion-col>
+                    <button ion-button full color="themeBlue" (click)="signupFacebook()">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                        Signup with Facebook
+                    </button>
+                    <button ion-button icon-left block color="danger" (click)="loginWithGmail()">
+                        <ion-icon name="logo-googleplus"></ion-icon>
+                        Signup with Google
+                    </button>
+                </ion-col>
+            </ion-row>
+
+            <form [formGroup]="signup">
+                <ion-list>
+                    <ion-item>
+                        <ion-label floating>Email *</ion-label>
+                        <ion-input type="text" formControlName="email" autocapitalize="none"
+                                   [(ngModel)]="signUpEmail"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Username *</ion-label>
+                        <ion-input type="text" formControlName="username"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Password *</ion-label>
+                        <ion-input [type]="signupPasswordType" formControlName="password"
+                                   (focus)="clearConfirmPass()"></ion-input>
+                        <button ion-button icon-only item-right clear large (click)="toggleSignupPassword()">
+                            <ion-icon [name]="signupPasswordIcon" color="themeGrey" class="eyeIcon"></ion-icon>
+                        </button>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Confirm Password *</ion-label>
+                        <ion-input [type]="signupCpasswordType" formControlName="confirmPassword"></ion-input>
+                        <button ion-button icon-only item-right clear large (click)="toggleSignupConfirmPassword()">
+                            <ion-icon [name]="signupCpasswordIcon" color="themeGrey" class="eyeIcon"></ion-icon>
+                        </button>
+                    </ion-item>
+                </ion-list>
+                <ion-row>
+                    <ion-col>
+                        <button ion-button full color="themeBlue" (click)="userSignup()" [disabled]="!signup.valid">Sign
+                            up
+                        </button>
+                    </ion-col>
+                </ion-row>
+            </form>
+            <ion-row>
+
+            </ion-row>
+            <ion-col>
+                <ion-label align="center">By signing up, you agree to our </ion-label>
+                <ion-label align="center"><b><a (click)="termsAndCondition()">Terms & Conditions</a> and <a (click)="privecyPolice()">Privacy Policy</a></b></ion-label>
+            </ion-col>
+        </div>
+    </div>
+</ion-content>

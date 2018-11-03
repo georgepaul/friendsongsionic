@@ -1,0 +1,71 @@
+page-search-playlist {
+  .searchbar{
+    background: transparent;
+    border: transparent;
+    padding: 8px;
+    .searchbar-input-container{
+      .searchbar-input{
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        padding-top: 6px;
+        padding-bottom: 6px;
+        border-radius: 2px;
+        height: auto;
+        font-size: 1.6rem;
+        font-weight: 400;
+        line-height: 3rem;
+        color: #141414;
+        background-color: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+      }
+    }
+    &.searchbar-ios{
+      .searchbar-search-icon{
+        top: 15px;
+      }
+    }
+  }
+  p{
+    color: #6c6c6c;
+  }
+  .bar-buttons{
+    .button{
+      background: #333;
+      color: #fff;
+      border: 1px solid #333;
+    }
+  }
+  .content{
+    .card-playlist{
+      margin: 12px;
+      width: calc(100% - 24px);
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+      .card-header{
+        color: #000;
+        text-align: center;
+        background: lightgray;
+      }
+      .list{
+        .item{
+          padding: 0 12px;
+          .item-inner{
+            border-bottom: 1px solid #dedede;
+          }
+        }
+        .grid{
+          padding: 0 12px;
+        }
+      }
+  }
+    .list{
+      margin: 0;
+      .item{
+        padding-left: 0;
+        ion-avatar{
+          img{
+            border-radius: 0;
+          }
+        }
+      }
+    }
+  }
+}

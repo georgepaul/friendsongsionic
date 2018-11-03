@@ -1,0 +1,31 @@
+page-image {
+  ion-header{
+    box-sizing: content-box;
+
+    .toolbar-background{
+      background: #000;
+    }
+
+    ion-title{
+      .toolbar-title{
+        color: #fff !important;
+      }
+    }
+  }
+
+  ion-content{
+    height: 100%;
+    .user-center{
+      height: 100%;
+      display: table;
+      width: 100%;
+      .user-profile{
+        background: #000;
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+page-home {
+  .scondary-btn {
+    margin: 0;
+    height: 4.3rem;
+  }
+  ion-toolbar {
+    span {
+      display: block;
+      font-size: 12px;
+      color: #666;
+    }
+    ion-checkbox {
+      margin: 0 !important;
+    }
+
+    .checkbox-icon {
+      display: none;
+    }
+    ion-label {
+      pading: 10px;
+    }
+
+  }
+  .paddingicon {
+    padding-right: 9px;
+  }
+  .title-logo {
+    font-family: 'choco_cookyregular';
+  }
+}

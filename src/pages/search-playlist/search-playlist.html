@@ -1,0 +1,89 @@
+<ion-header>
+    <ion-toolbar color="light" class="toolbarWithSearchbar">
+        <ion-searchbar [(ngModel)]="searchValues" [showCancelButton]="shouldShowCancel"
+                       (ionInput)="onInput(searchValues)" (ionCancel)="onCancel($event)">
+        </ion-searchbar>
+        <ion-buttons start>
+            <button ion-button icon-only color="themeGrey" (click)="closeCommntsModel()" style="font-size: 1.4rem;">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <p text-center *ngIf="searchData.length <= 1">{{searchData.length}} Result found </p>
+    <p text-center *ngIf="searchData.length > 1">{{searchData.length}} Results found </p>
+
+    <ion-card class="card-playlist" *ngIf="resultcount == true">
+        <ion-card-header >Create new playlist</ion-card-header>
+
+        <form [formGroup]="newplaylist">
+            <ion-list>
+                <ion-item>
+                    <ion-label floating>Name *</ion-label>
+                    <ion-input type="text" formControlName="name"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Description *</ion-label>
+                    <!--<ion-input type="text" formControlName="description"></ion-input>-->
+                    <ion-textarea formControlName="description"></ion-textarea>
+                </ion-item>
+                <ion-row padding class="userProfileMain">
+                    <ion-col width-67 class="noPaddingLeft">
+                        <div class="profilePictureMain">
+                            <button ion-button block color="themeBlue" (click)="selectImage()">Choose an image</button>
+                            <img *ngIf="displayImage" [src]="displayImage" (click)="selectImage()">
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <button ion-button full color="themeBlue" (click)="userNewplaylist()"
+                                [disabled]="!newplaylist.valid"> Create a new playlist
+                        </button>
+                    </ion-col>
+                </ion-row>
+            </ion-list>
+        </form>
+
+    </ion-card>
+
+
+    <ion-list class="friendsList" inset no-padding="">
+        <div *ngIf="searchData || searchData != null">
+            <div *ngFor="let search of searchData;let i=index">
+                <ion-item
+                        (click)="GotoHomeWithselectedItem(search.name,search.profile_url != '' ?  search.profile_url: 'assets/img/default-img.png', search.id , search.selected, search.text ? search.text : search.description)">
+                    <ion-avatar item-left>
+                        <img src="{{search.profile_url != '' ?  search.profile_url  : 'assets/img/default-img.png'}}"
+                             onError="this.src='assets/img/default-img.png';">
+                    </ion-avatar>
+                    <ion-label>
+                        <h2 class="fontWeight">{{search.name}}</h2>
+                        <h2 class="fontWeight">{{search.text ? search.text : search.description}}</h2>
+                        <p class="font-sub-header"><span style="color:#3b5998">{{search.suggestions}}</span>
+                            Suggestions
+                            <span style="color:#3b5998">{{search.listeners}}</span> Listeners
+                        </p>
+                    </ion-label>
+                </ion-item>
+            </div>
+        </div>
+        <div *ngIf="!searchData || searchData== null">
+            <div class="noUserFound">
+                <span>No Playlist Found</span>
+            </div>
+        </div>
+    </ion-list>
+    <ion-fab bottom right edge (click)="backToTop()">
+        <button ion-fab id="fab-back-to-top-search">
+            <ion-icon name="ios-arrow-up"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

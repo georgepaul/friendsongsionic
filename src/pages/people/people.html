@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-toolbar color="light" class="toolbarWithSearchbar">
+        <ion-title *ngIf="searchValue == false">People</ion-title>
+        <ion-buttons start (click)="searchEvent()" *ngIf="searchValue == false">
+            <button ion-button icon-only color="themeBlue" style="font-size: 1.4rem;">
+                <ion-icon name="search"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-searchbar [(ngModel)]="searchValues" [showCancelButton]="true" *ngIf="searchValue != false"
+                       (ionInput)="onInput(searchValues)" (ionClear)="onClear($event)" (ionCancel)="onCancel($event)">
+        </ion-searchbar>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content no-lines no-padding="">
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-list class="friendsList" inset no-padding="">
+        <div *ngIf="peopleData || peopleData != null">
+            <ion-toolbar *ngIf="suggestion != false">
+                <ion-title>Suggestions</ion-title>
+            </ion-toolbar>
+            <div *ngFor="let people of peopleData;let i=index">
+                <ion-item *ngIf="people.id != user_data.id">
+                    <ion-avatar item-left (click)="goToProfile(people.id)">
+                        <img src="{{people.avatar != '' ?  people.avatar: 'assets/img/default-img.png'}}" onError="this.src='assets/img/default-img.png';">
+                    </ion-avatar>
+                    <ion-label>
+                        <h2 class="fontWeight" (click)="goToProfile(people.id)">{{people.name}}</h2>
+                        <p class="font-sub-header">Genius score: <span style="color:#3b5998">{{people.genius_points}}</span></p>
+                        <p class="font-sub-header">Song count: <span style="color:#3b5998">{{people.song_count}}</span></p>
+                    </ion-label>
+                    <div item-right class="followButton">
+                        <ion-item>
+                            <button ion-button full (click)="unfollowUser(people.id, i)"
+                                    *ngIf="people.is_following != false" small class="following">Following
+                            </button>
+                            <button ion-button full (click)="followuser(people.id, i)"
+                                    *ngIf="people.is_following != true" small class="follow">Follow
+                            </button>
+                        </ion-item>
+                    </div>
+                </ion-item>
+            </div>
+        </div>
+
+        <div *ngIf="!peopleData || peopleData == null">
+            <div class="noUserFound">
+                <img src="assets/img/no-data-found.png">
+                <span>No User Found</span>
+                <!--<small>Start by <a (click)="goToYoutube()"><b>sharing</b></a> a song or <a (click)="invitePeople()"><b>Inviting</b></a> your Friends.</small>-->
+            </div>
+        </div>
+
+    </ion-list>
+    <ion-fab bottom right edge (click)="backToTop()">
+        <button ion-fab id="fab-back-to-top-people">
+            <ion-icon name="ios-arrow-up"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>
