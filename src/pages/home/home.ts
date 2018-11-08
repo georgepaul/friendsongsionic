@@ -222,7 +222,7 @@ export class HomePage implements AfterViewInit {
                     that.feedsApi.everyoneFeeds(data).subscribe((Data) => {
                         loader.dismiss()
                         if (Data != null) {
-                            Data = Data.slice(1);
+                            //Data = Data.slice(1);
                             let allData = [];
                             let idGroup = [];
                             Data.forEach(function (val) {
@@ -280,7 +280,7 @@ export class HomePage implements AfterViewInit {
                     that.feedsApi.everyoneFeeds(data).subscribe((Data) => {
                         loader.dismiss()
                         if (Data != null) {
-                            Data = Data.slice(1);
+                            //Data = Data.slice(1);
                             let allData = [];
                             let idGroup = [];
                             Data.forEach(function (val) {
@@ -337,7 +337,7 @@ export class HomePage implements AfterViewInit {
                     that.feedsApi.everyoneFeeds(data).subscribe((Data) => {
                         loader.dismiss()
                         if (Data != null) {
-                            Data = Data.slice(1);
+                            //Data = Data.slice(1);
                             let allData = [];
                             let idGroup = [];
                             Data.forEach(function (val) {
@@ -960,7 +960,7 @@ export class HomePage implements AfterViewInit {
 
                     that.feedsApi.everyoneFeeds(data).subscribe((Data) => {
                         if (Data != null) {
-                            Data = Data.slice(1);
+                            //Data = Data.slice(1);
                             let allData = [];
                             let idGroup = [];
 
@@ -1012,7 +1012,7 @@ export class HomePage implements AfterViewInit {
 
                     that.feedsApi.friendFeeds(data).subscribe((Data) => {
                         if (Data != null) {
-                            Data = Data.slice(1);
+                            //Data = Data.slice(1);
                             let allData = [];
                             let idGroup = [];
                             Data.forEach(function (val) {
@@ -1062,7 +1062,7 @@ export class HomePage implements AfterViewInit {
 
                     that.feedsApi.meFeeds(data).subscribe((Data) => {
                         if (Data != null) {
-                            Data = Data.slice(1);
+                            //Data = Data.slice(1);
                             let allData = [];
                             let idGroup = [];
                             Data.forEach(function (val) {
@@ -1368,7 +1368,7 @@ export class HomePage implements AfterViewInit {
                 that.feedsApi.everyoneFeeds(data).subscribe((Data) => {
                     loader.dismiss()
                     if (Data != null) {
-                        Data = Data.slice(1);
+                        //Data = Data.slice(1);
                         let allData = [];
                         let idGroup = [];
                         Data.forEach(function (val) {
@@ -1422,7 +1422,7 @@ export class HomePage implements AfterViewInit {
                 that.feedsApi.friendFeeds(data).subscribe((Data) => {
                     loader.dismiss()
                     if (Data != null) {
-                        Data = Data.slice(1);
+                        //Data = Data.slice(1);
                         let allData = [];
                         let idGroup = [];
                         Data.forEach(function (val) {
@@ -1480,7 +1480,7 @@ export class HomePage implements AfterViewInit {
                 that.feedsApi.meFeeds(data).subscribe((Data) => {
                     loader.dismiss()
                     if (Data != null) {
-                        Data = Data.slice(1);
+                        //Data = Data.slice(1);
                         let allData = [];
                         let idGroup = [];
                         Data.forEach(function (val) {
@@ -1620,7 +1620,7 @@ export class HomePage implements AfterViewInit {
                     that.feedsApi.searchApi(data).subscribe((Data) => {
                         if (Data.success != false) {
                             if (Data != null) {
-                                Data = Data.slice(1);
+                                ///Data = Data.slice(1);
                                 let allData = [];
                                 let idGroup = [];
                                 Data.forEach(function (val) {
@@ -2131,7 +2131,7 @@ export class HomePage implements AfterViewInit {
                                                                     that.feedsApi.everyoneFeeds(data).subscribe((Data) => {
                                                                         loader.dismiss()
                                                                         if (Data != null) {
-                                                                            Data = Data.slice(1);
+                                                                            //Data = Data.slice(1);
                                                                             let allData = [];
                                                                             let idGroup = [];
                                                                             Data.forEach(function (val) {
@@ -2182,7 +2182,7 @@ export class HomePage implements AfterViewInit {
                                                                     that.feedsApi.friendFeeds(data).subscribe((Data) => {
                                                                         loader.dismiss()
                                                                         if (Data != null) {
-                                                                            Data = Data.slice(1);
+                                                                            //Data = Data.slice(1);
                                                                             let allData = [];
                                                                             let idGroup = [];
                                                                             Data.forEach(function (val) {
@@ -2233,7 +2233,7 @@ export class HomePage implements AfterViewInit {
                                                                     that.feedsApi.meFeeds(data).subscribe((Data) => {
                                                                         loader.dismiss()
                                                                         if (Data != null) {
-                                                                            Data = Data.slice(1);
+                                                                            //Data = Data.slice(1);
                                                                             let allData = [];
                                                                             let idGroup = [];
                                                                             Data.forEach(function (val) {

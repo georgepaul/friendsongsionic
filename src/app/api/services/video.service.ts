@@ -12,7 +12,7 @@ export class VideoService{
 
     // Base url
     //private feedsUrl = 'http://m.friendsongs.com/lib/ajax/ajax.php';
-    private feedsUrl = 'http://player.friendsongs.com/lib/ajax/ajax.php';
+    private feedsUrl = 'http://mdev.friendsongs.com/lib/ajax/ajax.php';
 
     //private feedsUrl = 'http://192.168.1.22/friendsongs/lib/ajax/ajax1.php';
 

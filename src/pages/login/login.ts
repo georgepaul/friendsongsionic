@@ -86,7 +86,7 @@ export class LoginPage {
                 validationData.append('action', 'user_exists')
                 validationData.append('email', value)
                 if (re.test(value)) {
-                    this.http.post('http://player.friendsongs' +
+                    this.http.post('http://mdev.friendsongs' +
                         '.com/lib/ajax/ajax.php', validationData).toPromise().then((res) => {
                         let result = res.json()
                         let valid = result.success == false ? null : {notA: true};
@@ -703,8 +703,7 @@ export class LoginPage {
         this.fbLoader.present()
         this.googlePlus.login({
             scope: 'profile email openid',
-            response_type: 'id_token permission',
-            webClientId: '609463876768-ahm5i0c6l5c8q6a7s6g6hq9n33brn1n1.apps.googleusercontent.com'
+            response_type: 'id_token permission'
         })
             .then(res => {
                 if (window.navigator.onLine) {

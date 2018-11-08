@@ -13,12 +13,12 @@ export class AuthService{
     // Base url
     //private baseUrl = 'http://m.friendsongs.com/lib/ajax/ajax.php';
       /*private baseUrl = 'http://mdev.friendsongs.com/lib/ajax/ajax.php';*/
-      private baseUrl = 'http://player.friendsongs.com/lib/ajax/ajax.php';
+      private baseUrl = 'http://mdev.friendsongs.com/lib/ajax/ajax.php';
    // private baseUrl = 'http://192.168.1.22/friendsongs/lib/ajax/ajax1.php';
     //private loginUrl = 'http://m.friendsongs.com/login';
 
      /*private loginUrl = 'http://mdev.friendsongs.com/login';*/
-     private loginUrl = 'http://player.friendsongs.com/login';
+     private loginUrl = 'http://mdev.friendsongs.com/login';
 
     //private loginUrl = 'http://192.168.1.22/friendsongs/login';
 
