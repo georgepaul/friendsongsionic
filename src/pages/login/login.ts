@@ -86,7 +86,7 @@ export class LoginPage {
                 validationData.append('action', 'user_exists')
                 validationData.append('email', value)
                 if (re.test(value)) {
-                    this.http.post('http://mdev.friendsongs' +
+                    this.http.post('https://mdev.friendsongs' +
                         '.com/lib/ajax/ajax.php', validationData).toPromise().then((res) => {
                         let result = res.json()
                         let valid = result.success == false ? null : {notA: true};
